@@ -14,13 +14,15 @@ import sys
 import threading
 import time
 import typing
-from typing import Any, Dict, List, Optional, Set, Union, cast
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Union, cast
 from uuid import uuid4
 import warnings
 
 import anyio
-import anyio.from_thread
-import anyio.to_thread
+
+if TYPE_CHECKING:
+    import anyio.from_thread
+    import anyio.to_thread
 import starlette.websockets
 import uvicorn.server
 import websockets.legacy.http
@@ -127,7 +129,7 @@ class WebsocketDebugInfo:
 class WebsocketWrapper(websocket.WebsocketWrapper):
     ws: starlette.websockets.WebSocket
 
-    def __init__(self, ws: starlette.websockets.WebSocket, portal: Optional[anyio.from_thread.BlockingPortal]) -> None:
+    def __init__(self, ws: starlette.websockets.WebSocket, portal: Optional["anyio.from_thread.BlockingPortal"]) -> None:
         self.ws = ws
         self.portal = portal
         self.sync_writer = None
